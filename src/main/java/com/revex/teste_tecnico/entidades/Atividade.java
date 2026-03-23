@@ -39,7 +39,4 @@ public class Atividade {
         }
     }
 
-    public void setStatus(StatusAtividade status) {
-        this.status = (status == null) ? StatusAtividade.PENDENTE : status;
-    }
 }
