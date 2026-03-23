@@ -1,0 +1,67 @@
+package com.revex.teste_tecnico.servicos;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.revex.teste_tecnico.entidades.Atividade;
+import com.revex.teste_tecnico.entidades.Atividade.StatusAtividade;
+import com.revex.teste_tecnico.entidades.Colaborador;
+import com.revex.teste_tecnico.repositorios.AtividadeRepository;
+import com.revex.teste_tecnico.repositorios.ColaboradorRepository;
+
+@Service
+public class AtividadeService {
+
+    @Autowired
+    private AtividadeRepository atividadeRepository;
+
+    @Autowired
+    private ColaboradorRepository colaboradorRepository;
+
+    public Atividade salvar(Atividade atividade, Long responsavelId) {
+
+        if (responsavelId != null) {
+            Colaborador colaborador = colaboradorRepository.findById(responsavelId)
+                    .orElseThrow(() -> new RuntimeException("Colaborador não encontrado"));
+
+            atividade.setResponsavel(colaborador);
+        } else {
+            atividade.setResponsavel(null);
+        }
+
+        return atividadeRepository.save(atividade);
+    }
+
+    public List<Atividade> listarTodas() {
+        return atividadeRepository.findAll();
+    }
+
+    public Atividade atualizarStatus(Long id, StatusAtividade status) {
+
+        Atividade atividade = atividadeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Atividade não encontrada"));
+
+        atividade.setStatus(status);
+
+        return atividadeRepository.save(atividade);
+    }
+
+    public Atividade atualizarResponsavel(Long id, Long responsavelId) {
+
+        Atividade atividade = atividadeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Atividade não encontrada"));
+
+        if (responsavelId == null) {
+            atividade.setResponsavel(null);
+        } else {
+            Colaborador colaborador = colaboradorRepository.findById(responsavelId)
+                    .orElseThrow(() -> new RuntimeException("Colaborador não encontrado"));
+
+            atividade.setResponsavel(colaborador);
+        }
+
+        return atividadeRepository.save(atividade);
+    }
+}
