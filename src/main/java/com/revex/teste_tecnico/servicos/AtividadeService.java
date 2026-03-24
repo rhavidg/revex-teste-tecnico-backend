@@ -20,19 +20,21 @@ public class AtividadeService {
     @Autowired
     private ColaboradorRepository colaboradorRepository;
 
-    public Atividade salvar(Atividade atividade, Long responsavelId) {
+    public Atividade salvar(Atividade atividade) {
 
-        if (responsavelId != null) {
-            Colaborador colaborador = colaboradorRepository.findById(responsavelId)
-                    .orElseThrow(() -> new RuntimeException("Colaborador não encontrado"));
+    if (atividade.getResponsavel() != null && atividade.getResponsavel().getId() != null) {
 
-            atividade.setResponsavel(colaborador);
-        } else {
-            atividade.setResponsavel(null);
-        }
+        Long id = atividade.getResponsavel().getId();
 
-        return atividadeRepository.save(atividade);
+        Colaborador colaborador = colaboradorRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Colaborador não encontrado"));
+
+        atividade.setResponsavel(colaborador); // 👈 AQUI resolve tudo
     }
+
+    return atividadeRepository.save(atividade);
+}
 
     public List<Atividade> listarTodas() {
         return atividadeRepository.findAll();

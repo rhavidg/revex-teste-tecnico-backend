@@ -24,7 +24,7 @@ public class AtividadeController {
     public ResponseEntity<Atividade> criar(
             @RequestBody @Valid Atividade atividade,
             @RequestParam(required = false) Long responsavelId) {
-        Atividade salva = service.salvar(atividade, responsavelId);
+        Atividade salva = service.salvar(atividade);
         return ResponseEntity.ok(salva);
     }
 

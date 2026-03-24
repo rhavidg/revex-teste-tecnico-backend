@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, List<String>> handleValidationErrors(MethodArgumentNotValidException ex) {
+    public Map<String, String> handleValidationErrors(MethodArgumentNotValidException ex) {
 
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
@@ -20,6 +20,8 @@ public class GlobalExceptionHandler {
                 .map(error -> error.getDefaultMessage())
                 .toList();
 
-        return Map.of("messages", errors);
+        String errorMessage = String.join(", ", errors);
+
+        return Map.of("messages", errorMessage);
     }
 }
