@@ -8,11 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.revex.teste_tecnico.entidades.Atividade;
-import com.revex.teste_tecnico.entidades.Atividade.StatusAtividade;
 import com.revex.teste_tecnico.servicos.AtividadeService;
 
 import jakarta.validation.Valid;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/atividades")
 public class AtividadeController {

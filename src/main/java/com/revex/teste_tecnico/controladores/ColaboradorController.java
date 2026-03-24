@@ -11,6 +11,7 @@ import com.revex.teste_tecnico.servicos.ColaboradorService;
 
 import jakarta.validation.Valid;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/colaboradores")
 public class ColaboradorController {
