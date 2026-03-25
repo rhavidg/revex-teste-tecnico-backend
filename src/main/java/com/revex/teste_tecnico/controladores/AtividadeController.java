@@ -33,25 +33,29 @@ public class AtividadeController {
         return ResponseEntity.ok(service.listarTodas());
     }
 
-    @PatchMapping("/{id}/status")
+    @GetMapping("/{id}")
+    public ResponseEntity<Atividade> buscarPorId(@PathVariable Long id) {
+        Atividade atividade = service.buscarPorId(id);
+        return ResponseEntity.ok(atividade);
+    }
+
+    @PatchMapping("/{id}")
     public ResponseEntity<Atividade> atualizarStatus(
             @PathVariable Long id,
-            @RequestBody Map<String, String> body) {
-        String status = body.get("status");
+            @RequestBody Map<String, Object> body) {
+
+        String status = (String) body.get("status");
+
+        Long responsavelId = null;
+
+        if (body.get("responsavel") != null) {
+            Map<String, Object> responsavel = (Map<String, Object>) body.get("responsavel");
+            responsavelId = Long.valueOf(responsavel.get("id").toString());
+        }
 
         Atividade.StatusAtividade statusEnum = Atividade.StatusAtividade.valueOf(status);
 
-        Atividade atualizada = service.atualizarStatus(id, statusEnum);
-        return ResponseEntity.ok(atualizada);
-    }
-
-    @PatchMapping("/{id}/responsavel")
-    public ResponseEntity<Atividade> atualizarResponsavel(
-            @PathVariable Long id,
-            @RequestBody Map<String, Long> body) {
-        Long responsavelId = body.get("responsavelId");
-
-        Atividade atualizada = service.atualizarResponsavel(id, responsavelId);
+        Atividade atualizada = service.atualizar(id, statusEnum, responsavelId);
         return ResponseEntity.ok(atualizada);
     }
 }
