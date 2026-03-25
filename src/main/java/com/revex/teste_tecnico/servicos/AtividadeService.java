@@ -40,20 +40,17 @@ public class AtividadeService {
         return atividadeRepository.findAll();
     }
 
-    public Atividade atualizarStatus(Long id, StatusAtividade status) {
+    public Atividade buscarPorId(Long id) {
+        return atividadeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Atividade não encontrada"));
+    }
+
+    public Atividade atualizar(Long id, StatusAtividade status, Long responsavelId) {
 
         Atividade atividade = atividadeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Atividade não encontrada"));
 
         atividade.setStatus(status);
-
-        return atividadeRepository.save(atividade);
-    }
-
-    public Atividade atualizarResponsavel(Long id, Long responsavelId) {
-
-        Atividade atividade = atividadeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Atividade não encontrada"));
 
         if (responsavelId == null) {
             atividade.setResponsavel(null);
