@@ -26,7 +26,7 @@ public class Atividade {
     private String descricao;
 
     @Enumerated(EnumType.STRING)
-    private StatusAtividade status = StatusAtividade.PENDENTE;
+    private StatusAtividade status;
 
     @ManyToOne
     @JoinColumn(name = "responsavel_id", nullable = true)
