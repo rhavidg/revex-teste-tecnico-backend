@@ -40,7 +40,7 @@ public class AtividadeController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Atividade> atualizarStatus(
+    public ResponseEntity<Atividade> atualizar(
             @PathVariable Long id,
             @RequestBody Map<String, Object> body) {
 
